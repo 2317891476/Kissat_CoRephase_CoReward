@@ -10,4 +10,5 @@ tissat
 *.gcov
 gmon.out
 *~
-.vscode
+# 排除 VSCode 配置目录和文件
+/.vscode/
