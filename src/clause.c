@@ -4,6 +4,12 @@
 
 #include <string.h>
 
+static int
+compare_unsigned (const unsigned *a, const unsigned *b)
+{
+  return *a < *b ? -1 : 1;
+}
+
 static void
 inc_clause (kissat * solver, bool original, bool redundant)
 {
@@ -226,4 +232,44 @@ kissat_delete_binary (kissat * solver,
   DELETE_BINARY_FROM_PROOF (a, b);
   dec_clause (solver, redundant);
   INC (clauses_deleted);
+}
+
+double
+kissat_median_lbd (kissat * solver)
+{
+  unsigned *values = NULL;
+  size_t count = 0;
+  size_t capacity = 0;
+
+  // 第一遍遍历统计有效条款数量
+  for (all_clauses (c))
+  {
+    if (c->garbage || !c->redundant) continue;
+    count++;
+  }
+
+  if (!count)
+    return 0;
+
+  // 分配足够内存
+  values = (unsigned *)malloc(count * sizeof(unsigned));
+  if (!values) {
+    LOG("内存分配失败");
+    return 0;
+  }
+
+  // 第二遍遍历填充数据
+  size_t index = 0;
+  for (all_clauses (c))
+  {
+    if (c->garbage || !c->redundant) continue;
+    values[index++] = c->glue;
+  }
+
+  qsort(values, count, sizeof(unsigned), 
+       (int (*)(const void *, const void *))compare_unsigned);
+
+  const unsigned median = values[count / 2];
+  free(values);
+  return median;
 }

@@ -72,6 +72,7 @@ kissat_next_clause (clause * c)
 
 struct kissat;
 
+double kissat_median_lbd(struct kissat *);
 void kissat_new_binary_clause (struct kissat *,
 			       bool redundant, unsigned, unsigned);
 

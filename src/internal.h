@@ -148,6 +148,10 @@ struct kissat
   double mab_decisions;
   unsigned *mab_chosen;
   unsigned mab_chosen_tot;
+  uint64_t mab_last_conflicts;
+  //uint64_t mab_last_propagations;
+  double mab_last_update[4];
+  //double trail_depth_slope;
 
   heap schedule;
 
