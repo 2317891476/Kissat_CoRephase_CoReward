@@ -395,32 +395,44 @@ reset_phases_mab (kissat * solver)
       const double alpha = pow(0.7, age);
 
       // 多维度奖励特征
-      //const uint64_t delta_conflicts = solver->statistics.conflicts - solver->mab_last_conflicts;
-      //const uint64_t delta_propagations = solver->statistics.propagations - solver->mab_last_propagations;
-      const double conflict_rate = log2(solver->mab_decisions) *log2(solver->statistics.conflicts)/ solver->mab_chosen_tot/ solver->mab_chosen_tot;
-      //典型值：0.002865，0.001585，0.000036，0.000000，0.000431
-      const double avg_lbd = 1.0/kissat_median_lbd(solver);
-      //典型值：0.250000，0.500000，0.3333333,0.090909
-      //const double propagate_efficiency = delta_propagations / (delta_conflicts + 1);
-      const double unsigned_num =1.0 /(solver->vars - solver->active + 1);
-      //典型值：0.083333，0.019608，0.001193，0.012048
-      // 标准化奖励计算
-      const double reward = 0.5*300.0 * conflict_rate + 
-                          0.4*1.0 * avg_lbd +
-                          0.1*10.0 *  unsigned_num;
-      //printf("reward: %f",reward);
-      // 应用衰减机制
-      solver->mab_reward[last_arm] =  !solver->mab_chosen_tot ? 0 :alpha * reward + (1-alpha) * solver->mab_reward[last_arm];
+        //const uint64_t delta_conflicts = solver->statistics.conflicts - solver->mab_last_conflicts;
+        //const uint64_t delta_propagations = solver->statistics.propagations - solver->mab_last_propagations;
+        double conflict_rate = log2(solver->mab_decisions) *log2(solver->statistics.conflicts)/ solver->mab_chosen_tot/ solver->mab_chosen_tot;
+        //典型值：0.002865，0.001585，0.000036，0.000000，0.000431
+        double avg_lbd = 1.0/kissat_median_lbd(solver);
+        //典型值：0.250000，0.500000，0.3333333,0.090909
+        //const double propagate_efficiency = delta_propagations / (delta_conflicts + 1);
+        double unsigned_num =1.0 /(solver->vars - solver->active + 1);
+        //典型值：0.083333，0.019608，0.001193，0.012048
+        //z-score标准化
+        const double mu_con = 0.0052099420838;
+        const double mu_LBD = 0.3302614032864;
+        const double mu_var = 0.2399423374325;
 
-      // 更新记录
-      solver->mab_last_conflicts = solver->statistics.conflicts;
-      //solver->mab_last_propagations = solver->statistics.propagations;
-      solver->mab_last_update[last_arm] = solver->statistics.rephased;
-      //kissat_phase (solver, "rephase", GET (rephased), "%lu count; %lu candidates; %u last_arm", count, candidates, last_arm);
-      for (all_variables (idx)) solver->mab_chosen[idx] = 0;
-      solver->mab_chosen_tot = 0;
-      solver->mab_decisions = 0;
-    }
+        const double sigma_con = 0.0083740016433 ;
+        const double sigma_LBD = 0.1644219877848;
+        const double sigma_var = 0.3376882902598;
+
+        conflict_rate = conflict_rate > mu_con ? (conflict_rate-mu_con)/sigma_con : (mu_con-conflict_rate)/sigma_con;
+        avg_lbd = avg_lbd > mu_LBD ? (avg_lbd - mu_LBD) / sigma_LBD : (mu_LBD - avg_lbd) / sigma_LBD;
+        unsigned_num = unsigned_num > mu_var ? (unsigned_num - mu_var) /sigma_var : ( mu_var - unsigned_num) /sigma_var;
+        // 标准化奖励计算
+        const double reward = 0.4*  conflict_rate + 
+                            0.1*  avg_lbd +
+                            0.5*  unsigned_num;
+        printf("reward: %f",reward);
+        // 应用衰减机制
+        solver->mab_reward[last_arm] =  !solver->mab_chosen_tot ? 0 :alpha * reward + (1-alpha) * solver->mab_reward[last_arm];
+
+        // 更新记录
+        solver->mab_last_conflicts = solver->statistics.conflicts;
+        //solver->mab_last_propagations = solver->statistics.propagations;
+        solver->mab_last_update[last_arm] = solver->statistics.rephased;
+        //kissat_phase (solver, "rephase", GET (rephased), "%lu count; %lu candidates; %u last_arm", count, candidates, last_arm);
+        for (all_variables (idx)) solver->mab_chosen[idx] = 0;
+        solver->mab_chosen_tot = 0;
+        solver->mab_decisions = 0;
+      }
   
   if (candidates && count < 14)
     {
