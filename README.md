@@ -1,4 +1,4 @@
-# Kissat_MAB_CoRephase Tool Artifact README
+# Kissat_CoRephase_CoReward Tool Artifact README
 
 ## 1 Introduction
 
@@ -84,7 +84,7 @@ make
 
 ```bash
 # Build the SAT solver
-cd src/Kissat_MAB_CoRephase
+cd src/Kissat_CoRephase_CoReward
 make clean
 ./configure
 make
@@ -96,7 +96,7 @@ To run the SAT solver, you can use the following command:
 
 ```bash
 # Run the solver with a 5000-second time limit
-cd ./src/Kissat_MAB_CoRephase
+cd ./src/Kissat_CoRephase_CoReward
 ./build/kissat --time=5000  <INSTANCE_FILE>
 ```
 
