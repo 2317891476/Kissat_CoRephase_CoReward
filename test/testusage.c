@@ -69,14 +69,14 @@ tissat_schedule_usage (void)
 
 #ifndef QUIET
       APP (0, "--walkinitially --conflicts=3000 --probeinit=0 "
-	   "--eliminateinit=0 ../test/cnf/hard.cnf --profile=4");
-      APP (0, "../test/cnf/hard.cnf --walkinitially -v -v -v "
+	   "--eliminateinit=0 ../test/cnf/hard.cnf.xz --profile=4");
+      APP (0, "../test/cnf/hard.cnf.xz --walkinitially -v -v -v "
 	   "--colors --conflicts=1e4");
 #endif
 
-      APP (0, "--decisions=10 ../test/cnf/hard.cnf --no-reduce");
-      APP (0, "--decisions=10 ../test/cnf/hard.cnf --no-rephase");
-      APP (0, "--decisions=10 ../test/cnf/hard.cnf --no-restart");
+      APP (0, "--decisions=10 ../test/cnf/hard.cnf.xz --no-reduce");
+      APP (0, "--decisions=10 ../test/cnf/hard.cnf.xz --no-rephase");
+      APP (0, "--decisions=10 ../test/cnf/hard.cnf.xz --no-restart");
     }
 
 #else
@@ -102,9 +102,9 @@ tissat_schedule_usage (void)
 
   if (tissat_found_test_directory)
     {
-      APP (0, "--conflicts=6e3 ../test/cnf/hard.cnf" LIMITED_OPTIONS);
-      APP (0, "--decisions=8e3 ../test/cnf/hard.cnf" LIMITED_OPTIONS);
-      APP (0, "--conflicts=7e3 --decisions=7e3 ../test/cnf/hard.cnf"
+      APP (0, "--conflicts=6e3 ../test/cnf/hard.cnf.xz" LIMITED_OPTIONS);
+      APP (0, "--decisions=8e3 ../test/cnf/hard.cnf.xz" LIMITED_OPTIONS);
+      APP (0, "--conflicts=7e3 --decisions=7e3 ../test/cnf/hard.cnf.xz"
 	   LIMITED_OPTIONS);
     }
 
