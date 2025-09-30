@@ -1,4 +1,4 @@
-# Replication Instructions for Kissat_MAB_CoRephase
+# Replication Instructions for Kissat_CoRephase_CoReward
 
 ## Prerequisites
 Before you can replicate the results, ensure you have the following software installed:
@@ -16,7 +16,7 @@ Before you can replicate the results, ensure you have the following software ins
 mkdir dataset
 cd dataset
 # Use wget to download datasets from the URIs listed in the specified file
-wget --content-disposition -i ../scripts/track_main_2023.uri
+wget --content-disposition -i ../scripts/track_main_2024.uri
 ```
 
 ### 2. Setup
@@ -34,7 +34,7 @@ The setup steps are already covered in the `README.md`. Please follow the instru
 INSTANCES_DIR="../dataset"
 
 # Define the path to the solver executable
-SOLVER_PATH="../src/Kissat_MAB_CoRephase/build/kissat"
+SOLVER_PATH="../src/Kissat_CoRephase_CoReward/build/kissat"
 
 # Define the directory to store the results
 RESULTS_DIR="../results"
