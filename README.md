@@ -39,7 +39,6 @@ The code of these four solvers are also included in the `scripts/` folder.
 - **Operating System**: Linux (Ubuntu 20.04 or later is recommended)
 - Dependencies:
   - `7z` (for handling 7z compressed files)
-  - `drat-trim` (for proof trimming)
   - `drabt` (for proof validation)
 
 ## 6 Quick Start 
@@ -65,22 +64,16 @@ sudo apt-get update
 apt-get install p7zip-full
 ```
 
-2. Install drat-trim
 
-```bash
-# Install drat-trim
-cd env/drat-trim
-make
-```
-
-3. Install drabt
+2. Install drabt
 
 ```bash
 cd env/drabt-004
+sudo cp drabt /usr/local/bin/
 make
 ```
 
-4. Build the SAT solver
+3. Build the SAT solver
 
 ```bash
 # Build the SAT solver

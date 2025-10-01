@@ -4,7 +4,6 @@
 Before you can replicate the results, ensure you have the following software installed:
 
 - `7z` (for handling 7z compressed files)
-- `drat-trim` (for proof trimming)
 - `drabt` (for proof validation)
 - `bash`
 
@@ -117,7 +116,7 @@ echo "Results summary saved to $OUTPUT_FILE"
 - Use the appropriate plot type (e.g., bar chart, line chart) to visualize the data.
 - Customize the plot as needed (e.g., add labels, titles, legends).
 - The `Origin` project file for this paper, `rephase.opju`, is provided.
-- The satisfiability of instances can refer to: https://satcompetition.github.io/2023/downloads/sc2023-detailed-results.zip
+
 
 ## Important Notes
 
